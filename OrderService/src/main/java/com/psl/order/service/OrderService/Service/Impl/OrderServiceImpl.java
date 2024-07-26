@@ -28,8 +28,7 @@ public class OrderServiceImpl implements OrderService {
     public ApiResponse deleteItemFromCart(int orderId, int productId) {
         Orders order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("The Order with given id not exists"));
         if(order.isStatus()){
-            ApiResponse apiResponse = ApiResponse.builder().message("The Order is placed already").status(HttpStatus.OK).build();
-            return apiResponse;
+            return ApiResponse.builder().message("The Order is placed already").status(HttpStatus.OK).build();
         }
         else{
             if(!order.getProducts().contains(productId)) {
@@ -38,8 +37,7 @@ public class OrderServiceImpl implements OrderService {
             else{
             order.getProducts().remove(productId);
             orderRepository.save(order);
-            ApiResponse apiResponse = ApiResponse.builder().message("The the product from cart successfully.").status(HttpStatus.OK).build();
-            return apiResponse;
+                return ApiResponse.builder().message("The the product from cart successfully.").status(HttpStatus.OK).build();
         }
 
         }
@@ -53,10 +51,10 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(false);
         order.setProducts(order.getProducts());
-        //System.out.println(order.getProducts());
         double totalAmount = 0;
         for(int product: order.getProducts()){
             Product p = restTemplate.getForObject("http://PRODUCTSERVICE/Products/"+product,Product.class);
+            assert p != null;
             totalAmount += p.getPrice();
             productList.add(p);
         }
@@ -118,12 +116,10 @@ public class OrderServiceImpl implements OrderService {
         Orders order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("The Order with given id not exists"));
         if(!order.isStatus()){
             orderRepository.delete(order);
-            ApiResponse apiResponse = ApiResponse.builder().message("The Cart deleted Successfully").status(HttpStatus.OK).build();
-            return apiResponse;
+            return ApiResponse.builder().message("The Cart deleted Successfully").status(HttpStatus.OK).build();
         }
         else{
-            ApiResponse apiResponse = ApiResponse.builder().message("The Order is placed already").status(HttpStatus.BAD_REQUEST).build();
-            return apiResponse;
+            return ApiResponse.builder().message("The Order is placed already").status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }
