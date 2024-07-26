@@ -1,0 +1,4 @@
+The UserMicroservice is at 8082 port.
+The Product Microservice is at 8083 port.
+The Order Microservice is at 8084 port.
+
