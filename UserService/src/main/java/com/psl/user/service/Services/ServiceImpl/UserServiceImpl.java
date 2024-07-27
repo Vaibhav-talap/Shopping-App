@@ -5,6 +5,7 @@ import com.psl.user.service.Exceptions.ResourceNotFoundException;
 import com.psl.user.service.Repository.UserRepository;
 import com.psl.user.service.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,9 +16,16 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtService;
+
+    @Autowired
     RestTemplate restTemplate;
     @Override
     public User registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -32,5 +40,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(int userId) {
         return userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("The User with given id not exists"));
+    }
+
+    public String generateToken(String username) {
+        return jwtService.generateToken(username);
+    }
+
+    public void validateToken(String token) {
+        jwtService.validateToken(token);
     }
 }

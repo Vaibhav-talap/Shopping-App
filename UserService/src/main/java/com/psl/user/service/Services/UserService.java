@@ -6,4 +6,7 @@ public interface UserService {
     User registerUser(User user);
     User updateUser(User user, int userId);
     User findUserById(int userId);
+    String generateToken(String email);
+
+    void validateToken(String token);
 }

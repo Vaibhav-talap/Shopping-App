@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: APIGateway
+
+server:
+  port: 8085
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+  cloud:
+    gateway:
+      routes:
+        - id: ProductService
+          uri: lb://ProductService
+          predicates:
+            - Path=/Products/**
+          filters:
+            - AuthenticationFilter
+        - id: ORDERSERVICE
+          uri: lb://ORDERSERVICE
+          predicates:
+            - Path=/Orders/**
+          filters:
+            - AuthenticationFilter
+        - id: USERSERVICE
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/Users/**
+          filters:
+            - AuthenticationFilter
