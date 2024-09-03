@@ -20,7 +20,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @Configuration
 @EnableWebSecurity
-public class AuthConfig {
+public class  AuthConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){

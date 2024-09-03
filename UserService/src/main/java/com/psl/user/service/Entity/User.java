@@ -26,6 +26,12 @@ public class User {
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roles = new ArrayList<>();
+
     @Transient
     private List<Orders> orders = new ArrayList<>();
 }
