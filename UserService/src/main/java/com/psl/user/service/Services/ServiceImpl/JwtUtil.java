@@ -1,6 +1,8 @@
 package com.psl.user.service.Services.ServiceImpl;
 
 import com.psl.user.service.Config.CustomUserDetails;
+import com.psl.user.service.Exceptions.ResourceNotFoundException;
+import com.psl.user.service.Repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +25,9 @@ import io.jsonwebtoken.security.Keys;
 public class JwtUtil {
 
     @Autowired
-    CustomUserDetails customUserDetails;
+    UserRepository userRepository;
+
+
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
 
@@ -34,6 +38,7 @@ public class JwtUtil {
 
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
+        CustomUserDetails customUserDetails = new CustomUserDetails(userRepository.findByEmail(userName).orElseThrow(() -> new ResourceNotFoundException("The User with given id not exists")));
         Collection<? extends GrantedAuthority> authorities = customUserDetails.getAuthorities();
         claims.put("roles", authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         return createToken(claims, customUserDetails.getUsername());

@@ -17,7 +17,7 @@ public class LoggingAop {
 
     Logger log = LoggerFactory.getLogger(LoggingAop.class);
 
-    @Pointcut(value="execution(* com.psl.user.service.Services..(..) )")
+    @Pointcut(value="execution(* com.psl.user.service.Services..*(..) )")
     public void myPointcut() {
 
     }

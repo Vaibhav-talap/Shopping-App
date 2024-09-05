@@ -27,7 +27,6 @@ public class OrderController {
         return new ResponseEntity<>(orderService.placeOrder(orderId), HttpStatus.CREATED);
     }
     @GetMapping("/{orderId}")
-
     public ResponseEntity<OrderDTO> getOrderDetails(@PathVariable int orderId){
         return new ResponseEntity<>(orderService.getOrderDetails(orderId), HttpStatus.OK);
     }

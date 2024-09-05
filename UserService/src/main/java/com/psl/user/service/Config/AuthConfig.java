@@ -41,7 +41,7 @@ public class  AuthConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/Users/register", "/Users/token", "/Users/validate").permitAll()
+                                .requestMatchers("/Users/register", "/Users/token", "/Users/validate","/Users/roles").permitAll()
                                 .anyRequest().authenticated()
                 );
 
