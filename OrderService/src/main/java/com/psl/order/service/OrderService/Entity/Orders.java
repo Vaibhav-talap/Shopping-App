@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 @Entity
 @Getter
@@ -15,14 +14,17 @@ import java.util.List;
 @ToString
 @Builder
 public class Orders {
+
+    public enum OrderState { CART, PLACED, DELIVERED}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
-    @NotEmpty(message = "Order Name should not be empty")
-    private String orderName;
     private double totalAmount;
-    private boolean status;
-    private List<Integer> products = new ArrayList<>();
+    private HashMap<Integer, Integer> productQuantityAndId;
     private int userID;
+    @Enumerated(EnumType.STRING)
+    private OrderState orderState;
+
 }
 

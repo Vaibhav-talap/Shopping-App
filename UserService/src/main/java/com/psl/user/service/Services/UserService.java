@@ -12,7 +12,5 @@ public interface UserService {
     User findUserById(int userId);
     String generateToken(String email);
 
-    void validateToken(String token);
-
     Role registerRole(Role role);
 }

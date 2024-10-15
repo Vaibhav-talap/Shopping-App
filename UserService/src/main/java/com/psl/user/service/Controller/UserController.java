@@ -2,19 +2,15 @@ package com.psl.user.service.Controller;
 import com.psl.user.service.DTO.UserCredentials;
 import com.psl.user.service.Entity.Role;
 import com.psl.user.service.Entity.User;
-import com.psl.user.service.Services.ServiceImpl.CustomUserDetailsService;
 import com.psl.user.service.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 @RestController
 @RequestMapping("/Users")
 public class UserController {
@@ -49,9 +45,5 @@ public class UserController {
             throw new RuntimeException("invalid access");
         }
     }
-    @GetMapping("/validate")
-    public String validateToken(@RequestParam("token") String token) {
-        userService.validateToken(token);
-        return "Token is valid";
-    }
+
 }

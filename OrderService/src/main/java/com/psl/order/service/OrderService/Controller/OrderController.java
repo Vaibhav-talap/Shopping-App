@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.psl.order.service.OrderService.Service.OrderService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/Orders")
 public class OrderController {
@@ -18,27 +20,32 @@ public class OrderController {
     OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderDTO> addtoCart(@Valid @RequestBody Orders order) {
+    public ResponseEntity<OrderDTO> addToCart(@Valid @RequestBody Orders order) {
         return new ResponseEntity<>(orderService.addtoCart(order), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{orderId}")
-    public ResponseEntity<OrderDTO> placeOrder(@PathVariable int orderId){
-        return new ResponseEntity<>(orderService.placeOrder(orderId), HttpStatus.CREATED);
-    }
-    @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDTO> getOrderDetails(@PathVariable int orderId){
-        return new ResponseEntity<>(orderService.getOrderDetails(orderId), HttpStatus.OK);
+    @PutMapping("/{userID}")
+    public ResponseEntity<OrderDTO> placeOrder(@PathVariable int userID){
+        return new ResponseEntity<>(orderService.placeOrder(userID), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<ApiResponse> emptyCart(@PathVariable int orderId){
-        return new ResponseEntity<>(orderService.emptyCart(orderId),HttpStatus.OK);
+    @GetMapping("/users/{userID}")
+    public ResponseEntity<?> getAllOrdersOfUser(@PathVariable int userID){
+        return new ResponseEntity<>(orderService.getAllOrdersOfUser(userID), HttpStatus.OK);
+    }
+    @GetMapping("/{orderID}")
+    public ResponseEntity<OrderDTO> getOrderDetails(@PathVariable int orderID){
+        return new ResponseEntity<>(orderService.getOrderDetails(orderID), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{orderId}/Product/{productId}")
-    public ResponseEntity<ApiResponse> deleteItemFromCart(@PathVariable int orderId, @PathVariable int productId){
-        return new ResponseEntity<>(orderService.deleteItemFromCart(orderId,productId),HttpStatus.OK);
+    @DeleteMapping("/{userID}")
+    public ResponseEntity<ApiResponse> emptyCart(@PathVariable int userID){
+        return new ResponseEntity<>(orderService.emptyCart(userID),HttpStatus.OK);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<OrderDTO> deleteItemFromCart(@RequestBody Orders order){
+        return new ResponseEntity<>(orderService.deleteItemFromCart(order),HttpStatus.OK);
     }
 
 }

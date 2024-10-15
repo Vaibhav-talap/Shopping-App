@@ -24,12 +24,20 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
 
         Map<String, String> resp  = new HashMap<>();
-        e.getBindingResult().getAllErrors().forEach((error)->{
+        e.getBindingResult().getAllErrors().forEach(error->{
             String fieldName = ((FieldError)error).getField();
             String message = error.getDefaultMessage();
             resp.put(fieldName,message);
         });
-        return new ResponseEntity<Map<String, String>>(resp,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+
+    }
+
+    @ExceptionHandler(ResourceAlreadyExistException.class)
+    public ResponseEntity<ApiResponse> handleResourceNotFoundException(ResourceAlreadyExistException e){
+
+        String message = e.getMessage();
+        return new ResponseEntity<>(new ApiResponse(message,true, HttpStatus.BAD_REQUEST), HttpStatus.BAD_REQUEST);
 
     }
 }

@@ -22,6 +22,7 @@ public class Product {
     @NotEmpty(message = "Product Category should not be empty")
     private String productCategory;
     private double price;
+    private String imageUrl;
 
 
 }
